@@ -11,7 +11,6 @@ public class BasicTower : TowerBase
 
     protected override void Start()
     {
-        //effects = AudioSourceEffects.Instance;
         effects = FindFirstObjectByType<AudioSourceEffects>();
         towerTop = this.transform.Find("TowerHead").gameObject;
         newRotation = towerTop.transform.rotation;
