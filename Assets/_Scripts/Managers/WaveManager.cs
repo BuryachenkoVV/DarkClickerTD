@@ -203,7 +203,7 @@ public class WaveManager : MonoBehaviour
             enemySpawnHP = enemy.baseHealth *  currentWave.healthMultiplier * healthMultiplier;
             //float newHealth = baseEnemyHealth * Mathf.Pow(healthMultiplier, (currentWaveIndex - 1));
             //enemy.InitializeEnemy(currentWave.healthMultiplier * healthMultiplier, currentWave.speedMultiplier);
-            enemy.InitializeEnemy(enemySpawnHP, currentWave.speedMultiplier);
+            enemy.InitializeEnemy(enemySpawnHP, currentWave.speedMultiplier, Random.Range(0, 30));
             //Debug.Log($"Enemy Spawned with Hp: {enemy.baseHealth * (currentWave.healthMultiplier * healthMultiplier)}!");
             Debug.Log($"Enemy Base hp: {enemy.baseHealth}, CW.multiplier: {currentWave.healthMultiplier}, multiplier: {healthMultiplier}!");
             Debug.Log($"Enemy Spawned with Hp: {enemySpawnHP}!");

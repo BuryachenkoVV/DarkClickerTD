@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 //using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,12 +10,14 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+    private int _armorPercent = 0;
+
     [SerializeField] private Transform waypoint;
     private NavMeshAgent agent;
     [SerializeField]
     public float baseHealth = 40f;
     public float baseSpeed = 2f;
-
+    
     private float currentHealth;
     private float currentSpeed;
 
@@ -237,11 +238,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void InitializeEnemy(float healthMultiplier, float speedMultiplier)
+    public void InitializeEnemy(float healthMultiplier, float speedMultiplier, int armorPercent)
     {
         //currentHealth = baseHealth * healthMultiplier;
         currentHealth = healthMultiplier;
         currentSpeed = baseSpeed * speedMultiplier;
+        _armorPercent = armorPercent;
     }
 
     /// <summary>
@@ -254,9 +256,9 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-
-        currentHealth -= damage;
-        ShowDamagePopup(damage);
+        var currentDemage = damage - damage * (_armorPercent / 100f);
+        currentHealth -= currentDemage;
+        ShowDamagePopup(currentDemage);
 
 
         AudioManager.Instance.PlaySFX(AudioManager.Instance.enemyClickSound);  // sound effect playing

@@ -85,6 +85,7 @@
     <Compile Include="Assets\_Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\ParticleShadersVol1\SampleSceneAssets\Scripts\EMUI.cs" />
     <Compile Include="Assets\_Scripts\Managers\AudioManager.cs" />
+    <Compile Include="Assets\_Scripts\test.cs" />
     <Compile Include="Assets\_Scripts\AudioSourceEffects.cs" />
     <Compile Include="Assets\_Scripts\GlobalUpgrades\GlobalUpgradeDefinition.cs" />
     <Compile Include="Assets\_Scripts\VisualEffects\LaserEffect.cs" />
