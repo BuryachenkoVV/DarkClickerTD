@@ -119,6 +119,8 @@
     <Compile Include="Assets\_Scripts\Buildings\ProducerInfo.cs" />
     <Compile Include="Assets\_Scripts\Buildings\ResourceManager.cs" />
     <Compile Include="Assets\_Scripts\UI\CastleSelector.cs" />
+    <Compile Include="Assets\_Scripts\Enemies\EnemyStats.cs" />
+    <Compile Include="Assets\_Scripts\DamageType.cs" />
     <Compile Include="Assets\_Scripts\VisualEffects\SunMovement.cs" />
     <Compile Include="Assets\_Scripts\UI\ClickUpgradeUI.cs" />
     <Compile Include="Assets\_Scripts\GlobalUpgrades\ConstellationShopController.cs" />

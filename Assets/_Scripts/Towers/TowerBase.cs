@@ -1,3 +1,4 @@
+using Assets._Scripts;
 using UnityEngine;
 
 /// <summary>
@@ -32,6 +33,8 @@ public abstract class TowerBase : MonoBehaviour
     protected int specialLevel = 0;
 
     public float specialUpgradeValue = 0;
+
+    public DamageType damageType;
 
 
     // Текущие реальные параметры башни

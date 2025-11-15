@@ -1,3 +1,4 @@
+using Assets._Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,6 +16,7 @@ public class ProjectileMultiBall : MonoBehaviour
     public float maxRange = 10f;    // Максимальное расстояние, которое снаряд может пролететь
     private float timeAlive = 0f;   // Счётчик времени существования
     private Vector3 startPosition;  // Начальная позиция снаряда
+    private DamageType damageType;
 
     private void Start()
     {
@@ -24,13 +26,14 @@ public class ProjectileMultiBall : MonoBehaviour
     /// Альтернативный метод инициализации снаряда по цели.
     /// Вычисляет направление от позиции снаряда до позиции цели.
     /// </summary>
-    public void Initialize(Transform target, float damage)
+    public void Initialize(Transform target, float damage, DamageType type)
     {
         if (target != null)
         {
             moveDirection = (target.position - transform.position).normalized;
         }
         this.damage = damage;
+        damageType = type;
     }
 
     public void InitializeDirection(Vector3 direction, float damage)
@@ -81,7 +84,7 @@ public class ProjectileMultiBall : MonoBehaviour
     {
         if (enemy != null)
         {
-            enemy.TakeDamage(damage);
+            enemy.TakeDamage(damage, damageType);
         }
         hasHit = true;
         Destroy(gameObject);

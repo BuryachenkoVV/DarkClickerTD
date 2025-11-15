@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets._Scripts;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public class BasicTower : TowerBase
@@ -11,9 +12,11 @@ public class BasicTower : TowerBase
 
     protected override void Start()
     {
+        damageType = DamageType.Physical;
         effects = FindFirstObjectByType<AudioSourceEffects>();
         towerTop = this.transform.Find("TowerHead").gameObject;
         newRotation = towerTop.transform.rotation;
+       
 
         if (GlobalUpgradeManager.Instance.IsUnlocked("BasicTower_damage_1"))
         {
@@ -46,7 +49,7 @@ public class BasicTower : TowerBase
             // Если апгрейд Tower_damage_1 куплен, увеличиваем урон
             shootOnCooldown = true;
             GameObject projectile = Instantiate(projectilePrefab, towerTop.transform.position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Initialize(target.transform, finalDamage);
+            projectile.GetComponent<Projectile>().Initialize(target.transform, finalDamage, damageType);
 
 
             AudioManager.Instance.PlaySFX(AudioManager.Instance.basicTowerShootSound); // sound effect playing
