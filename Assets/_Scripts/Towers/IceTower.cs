@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets._Scripts;
 using UnityEngine;
 
 public class IceTower : TowerBase
@@ -18,6 +19,7 @@ public class IceTower : TowerBase
     protected override void Start()
     {
         towerTop = this.transform.Find("TowerHead").gameObject;
+        damageType = DamageType.Ice;
         //newRotation = towerTop.transform.rotation;
     }
 
@@ -41,7 +43,7 @@ public class IceTower : TowerBase
         {
             shootOnCooldown = true;
             GameObject projectile = Instantiate(projectilePrefab, towerTop.transform.position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Initialize(target.transform, damage);
+            projectile.GetComponent<Projectile>().Initialize(target.transform, damage,damageType);
             // При желании можно нанести урон (если IceTower должна и наносить урон)
             //target.TakeDamage(damage);
 

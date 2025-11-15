@@ -1,3 +1,4 @@
+using Assets._Scripts;
 using UnityEngine;
 
 public class MultiShotTower : TowerBase
@@ -13,6 +14,7 @@ public class MultiShotTower : TowerBase
     {
         towerTop = this.transform.Find("TowerHead").gameObject;
         newRotation = towerTop.transform.rotation;
+        damageType = DamageType.Wind;
     }
 
     protected override void Update()

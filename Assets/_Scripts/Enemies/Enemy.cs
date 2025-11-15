@@ -1,4 +1,10 @@
 using System.Collections;
+using Assets._Scripts;
+using Assets._Scripts.Enemies;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
+
+
+
 //using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,14 +16,20 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    private int _armorPercent = 0;
 
     [SerializeField] private Transform waypoint;
     private NavMeshAgent agent;
+
+    [SerializeField] private float physicalResistance = 0f;
+    [SerializeField] private float fireResistance = 0f;
+    [SerializeField] private float iceResistance = 0f;
+    [SerializeField] private float electricResistance = 0f;
+    [SerializeField] private float windResistance = 0f;
+
     [SerializeField]
     public float baseHealth = 40f;
     public float baseSpeed = 2f;
-    
+
     private float currentHealth;
     private float currentSpeed;
 
@@ -108,7 +120,7 @@ public class Enemy : MonoBehaviour
         {
             hpBar = GetComponentInChildren<Image>();
         }
-            
+
         currentSpeed = baseSpeed;
         enemyRenderer = GetComponent<Renderer>();
         if (enemyRenderer != null)
@@ -238,12 +250,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void InitializeEnemy(float healthMultiplier, float speedMultiplier, int armorPercent)
+    public void InitializeEnemy(EnemyStats stats)
     {
         //currentHealth = baseHealth * healthMultiplier;
-        currentHealth = healthMultiplier;
-        currentSpeed = baseSpeed * speedMultiplier;
-        _armorPercent = armorPercent;
+        currentHealth = stats.currentHealth;
+        currentSpeed = baseSpeed * currentSpeed;
+        physicalResistance = stats.physicalResistance;
+        fireResistance = stats.fireResistance;
+        iceResistance = stats.iceResistance;
+        windResistance = stats.windResistance;
+        electricResistance = stats.electricResistance;
     }
 
     /// <summary>
@@ -254,9 +270,9 @@ public class Enemy : MonoBehaviour
         waveManager = manager;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, DamageType damageType)
     {
-        var currentDemage = damage - damage * (_armorPercent / 100f);
+        var currentDemage = CalculateDamageWithResistance(damage, damageType);
         currentHealth -= currentDemage;
         ShowDamagePopup(currentDemage);
 
@@ -494,5 +510,23 @@ public class Enemy : MonoBehaviour
                 hpBar.gameObject.SetActive(true);
             }
         }
+    }
+
+    private float CalculateDamageWithResistance(float damage, DamageType type)
+    {
+        return type switch
+        {
+            DamageType.Physical => GetDamage(damage,physicalResistance),
+            DamageType.Fire => GetDamage(damage, fireResistance),
+            DamageType.Ice => GetDamage(damage, iceResistance),
+            DamageType.Electric => GetDamage(damage, electricResistance),
+            DamageType.Wind => GetDamage(damage, windResistance),
+            _ => damage
+        };
+    }
+
+    private float GetDamage(float damage, float resistance)
+    {
+        return damage * (1f - resistance);
     }
 }

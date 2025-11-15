@@ -1,3 +1,4 @@
+using Assets._Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,11 +7,19 @@ public class Projectile : MonoBehaviour
     public float speed = 10f;
     private Transform target;
     private float damage;
+    private DamageType damageType;
 
-    public void Initialize(Transform target, float damage)
+    /// <summary>
+    /// Создает снаряд
+    /// </summary>
+    /// <param name="target">Цель</param>
+    /// <param name="damage">Величина урона</param>
+    /// <param name="type">Тип урона</param>
+    public void Initialize(Transform target, float damage, DamageType type)
     {
         this.target = target;
         this.damage = damage;
+        this.damageType = type;
     }
 
     void Update()
@@ -35,7 +44,7 @@ public class Projectile : MonoBehaviour
         Enemy enemy = target.GetComponent<Enemy>();
         if (enemy != null)
         {
-            enemy.TakeDamage(damage);
+            enemy.TakeDamage(damage, damageType);
         }
         Destroy(gameObject); // Уничтожить снаряд после попадания
     }

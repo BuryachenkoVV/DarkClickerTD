@@ -1,3 +1,4 @@
+using Assets._Scripts;
 using UnityEngine;
 
 public class ProjectileAOE : MonoBehaviour
@@ -9,14 +10,16 @@ public class ProjectileAOE : MonoBehaviour
     private float explosionRadius;             // Радиус взрыва
     private Vector3 targetPosition;            // Целевая позиция, к которой летит снаряд
     private bool hasExploded = false;
+    private DamageType damageType;
 
     /// <summary>
     /// Инициализирует снаряд, задавая цель, урон и радиус взрыва.
     /// </summary>
-    public void Initialize(Transform target, float damage, float explosionRadius)
+    public void Initialize(Transform target, float damage, float explosionRadius, DamageType type)
     {
         this.damage = damage;
         this.explosionRadius = explosionRadius;
+        damageType=type;
         if (target != null)
         {
             targetPosition = target.position;
@@ -76,7 +79,7 @@ public class ProjectileAOE : MonoBehaviour
             Enemy enemy = col.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damage);
+                enemy.TakeDamage(damage,damageType);
             }
         }
 

@@ -1,4 +1,5 @@
 //using UnityEditor.PackageManager;
+using Assets._Scripts;
 using UnityEngine;
 
 public class AOETower : TowerBase
@@ -16,6 +17,7 @@ public class AOETower : TowerBase
 
     protected override void Start()
     {
+        damageType = DamageType.Fire;
         explosionRadius = baseExplosionRadius;
         towerTop = this.transform.Find("TowerHead").gameObject;
         newRotation = towerTop.transform.rotation;
@@ -52,7 +54,7 @@ public class AOETower : TowerBase
             if (aoeProj != null)
             {
                 // Передаём параметры снаряду: цель (или её позицию), урон и радиус взрыва
-                aoeProj.Initialize(target.transform, damage, explosionRadius);
+                aoeProj.Initialize(target.transform, damage, explosionRadius, damageType);
                 AudioManager.Instance.PlaySFX(AudioManager.Instance.AOETowerShootSound); // sound effect playing
             }
         }

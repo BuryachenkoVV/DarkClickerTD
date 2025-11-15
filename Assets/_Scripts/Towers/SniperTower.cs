@@ -1,4 +1,5 @@
 //using UnityEditor.PackageManager;
+using Assets._Scripts;
 using UnityEngine;
 
 public class SniperTower : TowerBase
@@ -25,6 +26,7 @@ public class SniperTower : TowerBase
         //attackRange *= enhancedRangeMultiplier;
         // »нициализируем начальный урон дл€ цели
         currentDamage = damage;
+        damageType = DamageType.Physical;
 
         getGlobalUpgrades();
     }
@@ -66,7 +68,7 @@ public class SniperTower : TowerBase
         {
             shootOnCooldown = true;
             // Ќаносим урон цели
-            currentTarget.TakeDamage(currentDamage);
+            currentTarget.TakeDamage(currentDamage, damageType);
             // ”величиваем урон дл€ следующего выстрела по этой же цели
             currentDamage += baseDamageIncrease;
             Vector3 targetPostion = currentTarget.transform.position;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets._Scripts;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
@@ -30,6 +31,7 @@ public class Tower : MonoBehaviour
     [HideInInspector] public float damage;
     [HideInInspector] public float attackCooldown; // чем меньше, тем быстрее стреляет
     [HideInInspector] public float attackRange;
+    [HideInInspector] public DamageType damageType;
 
     private float lastAttackTime;
 
@@ -107,7 +109,7 @@ public class Tower : MonoBehaviour
         if (projectilePrefab != null && shootPoint != null)
         {
             GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
-            projectile.GetComponent<Projectile>().Initialize(target.transform, damage);
+            projectile.GetComponent<Projectile>().Initialize(target.transform, damage, damageType);
         }
     }
 

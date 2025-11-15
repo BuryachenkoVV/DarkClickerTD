@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Assets._Scripts;
 using UnityEngine;
 
 public class ElectricTower : TowerBase
@@ -23,6 +24,7 @@ public class ElectricTower : TowerBase
     protected override void Start()
     {
         effects = FindFirstObjectByType<AudioSourceEffects>();
+        damageType = DamageType.Electric;
         //base.Start();
         // Изначально цепь будет охватывать baseChainCount врагов (первичная цель + дополнительные)
         currentChainCount = baseChainCount;
@@ -70,7 +72,7 @@ public class ElectricTower : TowerBase
         float currentDamage = damage;
         foreach (Enemy enemy in chainTargets)
         {
-            enemy.TakeDamage(currentDamage);
+            enemy.TakeDamage(currentDamage, damageType);
             currentDamage = (int)(chainDamageReduction * currentDamage);
         }
 

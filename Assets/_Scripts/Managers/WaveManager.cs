@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Assets._Scripts;
+using Assets._Scripts.Enemies;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {   
+    private EnemyStats statsOnWave;
+    private bool isNewWave = true;
     [Header("Wave Settings")]
     public List<WaveConfig> waveConfigs;
 
@@ -52,6 +57,7 @@ public class WaveManager : MonoBehaviour
     /// </summary>
     public void StartWave()
     {
+        isNewWave = true;
         currentWaveIndex++;
 
 
@@ -201,13 +207,24 @@ public class WaveManager : MonoBehaviour
         if (enemy != null)
         {
             enemySpawnHP = enemy.baseHealth *  currentWave.healthMultiplier * healthMultiplier;
-            //float newHealth = baseEnemyHealth * Mathf.Pow(healthMultiplier, (currentWaveIndex - 1));
-            //enemy.InitializeEnemy(currentWave.healthMultiplier * healthMultiplier, currentWave.speedMultiplier);
-            enemy.InitializeEnemy(enemySpawnHP, currentWave.speedMultiplier, Random.Range(0, 30));
-            //Debug.Log($"Enemy Spawned with Hp: {enemy.baseHealth * (currentWave.healthMultiplier * healthMultiplier)}!");
+
+            if (isNewWave)
+            {
+                statsOnWave = GetEnemyStats(enemySpawnHP, currentWave.speedMultiplier);
+                isNewWave = false;
+            }
+
+            enemy.InitializeEnemy(statsOnWave);
+
+
             Debug.Log($"Enemy Base hp: {enemy.baseHealth}, CW.multiplier: {currentWave.healthMultiplier}, multiplier: {healthMultiplier}!");
             Debug.Log($"Enemy Spawned with Hp: {enemySpawnHP}!");
-            
+            Debug.Log($"physicalResistance: {statsOnWave.physicalResistance}," +
+                $" fireResistance: {statsOnWave.fireResistance}," +
+                $" iceResistance: {statsOnWave.iceResistance}" +
+                $" electric: {statsOnWave.electricResistance}" +
+                $" wind: {statsOnWave.windResistance}");
+
             // —ообщаем, что WaveManager Ч "хоз€ин" врага
             // (чтобы враг мог вернуть колбэк при смерти, если нужно)
             enemy.SetWaveManager(this);
@@ -270,4 +287,40 @@ public class WaveManager : MonoBehaviour
         else
             return false;
     }
-}
+
+    private EnemyStats GetEnemyStats(float hp,float speed)
+    {
+        return GetEnemyResistance(new EnemyStats
+        {
+            baseHealth = hp,
+            baseSpeed = speed
+        });
+    }
+
+    private EnemyStats GetEnemyResistance(EnemyStats stats)
+    {
+        DamageType damageType = (DamageType)Random.Range(0, (float)System.Enum.GetValues(typeof(DamageType)).Cast<DamageType>().Last());
+        var resistancePercent = Random.Range(0, 30f);
+        resistancePercent /= 100;
+
+        var result = new EnemyStats
+        {
+            currentHealth = stats.baseHealth,
+            currentSpeed = stats.baseSpeed
+        };
+    
+        // —ловарь сопоставлени€ типа урона с свойством сопротивлени€
+        var resistanceMap = new Dictionary<DamageType, System.Action<float>>
+        {
+            { DamageType.Physical, (resistance) => result.physicalResistance = resistance },
+            { DamageType.Fire, (resistance) => result.fireResistance = resistance },
+            { DamageType.Ice, (resistance) => result.iceResistance = resistance },
+            { DamageType.Electric, (resistance) => result.electricResistance = resistance },
+            { DamageType.Wind, (resistance) => result.windResistance = resistance },
+        };
+    
+        resistanceMap[damageType](resistancePercent);
+        return result;
+        }
+    }
+

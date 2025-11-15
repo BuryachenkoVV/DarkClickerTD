@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets._Scripts;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -132,7 +133,7 @@ public class PlayerManager : MonoBehaviour
             damageToDeal *= critMultiplier;
             Debug.Log("CRITICAL HIT!");
         }
-        enemy.TakeDamage(damageToDeal);
+        enemy.TakeDamage(damageToDeal, DamageType.Physical);
 
         // Если враг умер (health <= 0) внутри TakeDamage,
         // в Enemy есть логика Die(), которая добавляет золото.

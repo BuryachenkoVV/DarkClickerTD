@@ -1,12 +1,10 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using TMPro;
+using System.Collections.Generic;
 using Firebase.Database;
 using Firebase.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using static UnityStandardAssets.Utility.TimedObjectActivator;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
